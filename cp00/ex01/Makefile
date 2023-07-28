@@ -9,7 +9,7 @@ all: $(TARGET)
 $(TARGET): $(TARGET).o
 	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).o
 
-$(TARGET).o: $(TARGET).cpp
+$(TARGET).o: $(TARGET).cpp $(TARGET).hpp
 	$(CC) $(CFLAGS) -c $(TARGET).cpp
 
 clean:
