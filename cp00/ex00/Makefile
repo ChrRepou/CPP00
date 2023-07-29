@@ -14,3 +14,8 @@ $(TARGET).o: $(TARGET).cpp
 
 clean:
 	$(RM) $(TARGET) $(TARGET).o
+
+fclean:
+	make clean
+
+re: fclean all

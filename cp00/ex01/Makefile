@@ -12,5 +12,11 @@ $(TARGET): $(TARGET).o
 $(TARGET).o: $(TARGET).cpp $(TARGET).hpp
 	$(CC) $(CFLAGS) -c $(TARGET).cpp
 
+
 clean:
 	$(RM) $(TARGET) $(TARGET).o
+
+fclean:
+	make clean
+
+re: fclean all

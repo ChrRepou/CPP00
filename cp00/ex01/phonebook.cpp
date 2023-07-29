@@ -1,24 +1,26 @@
 #include "phonebook.hpp"
-#include <limits>
 
-Contact	createContact(string firstName, string lastName, string nickName, string phoneNumber, string darkestSecret)
+Contact	createContact(std::string firstName, std::string lastName, std::string nickName, std::string phoneNumber, std::string darkestSecret)
 {
 	Contact	newContact;
 
-	newContact.firstName = firstName;
-	newContact.lastName = lastName;
-	newContact.nickName = nickName;
-	newContact.phoneNumber = phoneNumber;
-	newContact.darkestSecret = darkestSecret;
+	newContact.setFirstName(firstName);
+	newContact.setLastName(lastName);
+	newContact.setNickName(nickName);
+	newContact.setPhoneNumber(phoneNumber);
+	newContact.setDarkestSecret(darkestSecret);
 
 	return newContact;
 }
 
 int	addContact(Contact newContact, PhoneBook &newPhoneBook, int &index)
 {
+	Contact	*myCatalog;
+
+	myCatalog = newPhoneBook.getCatalog();
 	if (index == 8)
 		index = 0;
-	newPhoneBook.catalog[index] = newContact;
+	myCatalog[index] = newContact;
 	index++;
 
 	return 1;
@@ -27,58 +29,60 @@ int	addContact(Contact newContact, PhoneBook &newPhoneBook, int &index)
 void	printContacts(PhoneBook myPhoneBook)
 {
 	int	i;
+	Contact	*myCatalog;
 
+	myCatalog = myPhoneBook.getCatalog();
 	i = 0;
-	cout << "index     |";
-	cout << "first name|";
-	cout << "last name |";
-	cout << "nick name\n";
+	std::cout << "index     |";
+	std::cout << "first name|";
+	std::cout << "last name |";
+	std::cout << "nick name\n";
 	while(i < 8)
 	{
-		if (myPhoneBook.catalog[i].firstName.empty())
+		if (myCatalog[i].getFirstName().empty())
 			break;
-		string	index_str = SSTR(i + 1);
+		std::string	index_str = SSTR(i + 1);
 		for (long unsigned int j = 0; j < 10; j++)
 		{
 			if (j < index_str.length())
-				cout << index_str[j];
+				std::cout << index_str[j];
 			else
-				cout << " ";
+				std::cout << " ";
 		}
-		cout << "|";
+		std::cout << "|";
 
 		for (long unsigned int j = 0; j < 10; j++)
 		{
-			if (j < myPhoneBook.catalog[i].firstName.length() && j == 9)
-				cout << ".";
-			else if (j < myPhoneBook.catalog[i].firstName.length())
-				cout << myPhoneBook.catalog[i].firstName[j];
+			if (j < myCatalog[i].getFirstName().length() && j == 9)
+				std::cout << ".";
+			else if (j < myCatalog[i].getFirstName().length())
+				std::cout << myCatalog[i].getFirstName()[j];
 			else
-				cout << " ";
+				std::cout << " ";
 		}
-		cout << "|";
+		std::cout << "|";
 
 		for (long unsigned int j = 0; j < 10; j++)
 		{
-			if (j < myPhoneBook.catalog[i].lastName.length() && j == 9)
-				cout << ".";
-			else if (j < myPhoneBook.catalog[i].lastName.length())
-				cout << myPhoneBook.catalog[i].lastName[j];
+			if (j < myCatalog[i].getLastName().length() && j == 9)
+				std::cout << ".";
+			else if (j < myCatalog[i].getLastName().length())
+				std::cout << myCatalog[i].getLastName()[j];
 			else
-				cout << " ";
+				std::cout << " ";
 		}
-		cout << "|";
+		std::cout << "|";
 
 		for (long unsigned int j = 0; j < 10; j++)
 		{
-			if (j < myPhoneBook.catalog[i].nickName.length() && j == 9)
-				cout << ".";
-			else if (j < myPhoneBook.catalog[i].nickName.length())
-				cout << myPhoneBook.catalog[i].nickName[j];
+			if (j < myCatalog[i].getNickName().length() && j == 9)
+				std::cout << ".";
+			else if (j < myCatalog[i].getNickName().length())
+				std::cout << myCatalog[i].getNickName()[j];
 			else
-				cout << " ";
+				std::cout << " ";
 		}
-		cout << "\n";
+		std::cout << "\n";
 		i++;
 	}
 }
@@ -86,31 +90,33 @@ void	printContacts(PhoneBook myPhoneBook)
 void	printSpecificContact(PhoneBook myPhoneBook, int index, int maxCurrIndex)
 {
 	Contact	selectedContact;
+	Contact	*myCatalog;
 
+	myCatalog = myPhoneBook.getCatalog();
 	if (index == 0)
-		cout << "This is not a valid index\n";
+		std::cout << "This is not a valid index\n";
 	else if (index > maxCurrIndex || index > 8)
-		cout << "Index: " + SSTR(index) + " is not a valid index\n";
+		std::cout << "Index: " + SSTR(index) + " is not a valid index\n";
 	else
 	{
-		selectedContact = myPhoneBook.catalog[index - 1];
-		cout << "First name: " + selectedContact.firstName << endl;
-		cout << "Last name: " + selectedContact.lastName << endl;
-		cout << "Nick name: " + selectedContact.nickName << endl;
-		cout << "Phone number: " + selectedContact.phoneNumber << endl;
-		cout << "Darkest secret: " + selectedContact.darkestSecret << endl;
+		selectedContact = myCatalog[index - 1];
+		std::cout << "First name: " + selectedContact.getFirstName() << std::endl;
+		std::cout << "Last name: " + selectedContact.getLastName() << std::endl;
+		std::cout << "Nick name: " + selectedContact.getNickName() << std::endl;
+		std::cout << "Phone number: " + selectedContact.getPhoneNumber() << std::endl;
+		std::cout << "Darkest secret: " + selectedContact.getDarkestSecret() << std::endl;
 	}
 }
 
 void	executeSearch(PhoneBook myPhoneBook, int currentMaxIndex)
 {
-	string	selected_index_str;
+	std::string	selected_index_str;
 	int		selected_index;
-	stringstream ss;
+	std::stringstream ss;
 
 	printContacts(myPhoneBook);
-	cout << "Give the index of the Contact you wanna see\n";
-	getline(cin, selected_index_str);
+	std::cout << "Give the index of the Contact you wanna see\n";
+	std::getline(std::cin, selected_index_str);
 	ss << selected_index_str;
 	ss >> selected_index; 
 	printSpecificContact(myPhoneBook, selected_index, currentMaxIndex);
@@ -118,49 +124,49 @@ void	executeSearch(PhoneBook myPhoneBook, int currentMaxIndex)
 
 void	executeAdd(int &index, PhoneBook &phoneBook)
 {
-	string	firstName;
-	string	lastName;
-	string	nickName;
-	string	phoneNumber;
-	string	darkestSecret;
+	std::string	firstName;
+	std::string	lastName;
+	std::string	nickName;
+	std::string	phoneNumber;
+	std::string	darkestSecret;
 	Contact	newContact;
 
 	do{
-		cout << "Give your first name: ";
-		getline(cin, firstName);
+		std::cout << "Give your first name: ";
+		std::getline(std::cin, firstName);
 		if (firstName.empty())
-			cout << "This field shouldn't be empty\n";
+			std::cout << "This field shouldn't be empty\n";
 	} while (firstName.empty());
 	
 	do{
-		cout << "\nGive your last name: ";
-		getline(cin, lastName);
+		std::cout << "\nGive your last name: ";
+		std::getline(std::cin, lastName);
 		if (lastName.empty())
-			cout << "This field shouldn't be empty\n";
+			std::cout << "This field shouldn't be empty\n";
 	} while (lastName.empty());
 
 	do{
-		cout << "\nGive your nickName: ";
-		getline(cin, nickName);
+		std::cout << "\nGive your nickName: ";
+		std::getline(std::cin, nickName);
 		if (nickName.empty())
-			cout << "This field shouldn't be empty\n";
+			std::cout << "This field shouldn't be empty\n";
 	} while (nickName.empty());
 	
 	do{
-		cout << "\nGive your phone number: ";
-		getline(cin, phoneNumber);
+		std::cout << "\nGive your phone number: ";
+		std::getline(std::cin, phoneNumber);
 		if (phoneNumber.empty())
-			cout << "This field shouldn't be empty\n";
+			std::cout << "This field shouldn't be empty\n";
 	} while (phoneNumber.empty());
 
 	do{
-		cout << "\nGive your darkest secret: ";
-		getline(cin, darkestSecret);
+		std::cout << "\nGive your darkest secret: ";
+		std::getline(std::cin, darkestSecret);
 		if (darkestSecret.empty())
-			cout << "This field shouldn't be empty\n";
+			std::cout << "This field shouldn't be empty\n";
 	} while (darkestSecret.empty());
 
-	cout << "\n";
+	std::cout << "\n";
 
 	newContact = createContact(firstName, lastName, nickName, phoneNumber, darkestSecret);
 	addContact(newContact, phoneBook, index); 
@@ -171,20 +177,20 @@ int main()
 	PhoneBook	myPhoneBook;
 	Contact		myContact;
 	int			index;
-	string		command;
+	std::string		command;
 
 	index = 0;
-	cout << "Welcome to the phoneBook!\n";
-	cout << "Available commands:\n";
-	cout << "ADD: adding a new Contact to the phoneBook\n";
-	cout << "SEARCH: display a specific contact\n";
-	cout << "EXIT: to terminate the program\n";
+	std::cout << "Welcome to the phoneBook!\n";
+	std::cout << "Available commands:\n";
+	std::cout << "ADD: adding a new Contact to the phoneBook\n";
+	std::cout << "SEARCH: display a specific contact\n";
+	std::cout << "EXIT: to terminate the program\n";
 
 	while (1)
 	{
-		cout << "Give a command: ";
-		getline(cin, command);
-		if (cin.eof())
+		std::cout << "Give a command: ";
+		std::getline(std::cin, command);
+		if (std::cin.eof())
 			exit(1);
 		if (command == "EXIT")
 			break;
@@ -193,13 +199,9 @@ int main()
 		else if (command == "SEARCH")
 			executeSearch(myPhoneBook, index);
 		else
-			cout << "Command: " + command + " is not acceptable!\n";
+			std::cout << "Command: " + command + " is not acceptable!\n";
 
 	}
-	// cout << "Index before adding the contact: " + SSTR(index) + " \n";
-	// cout << "Index after adding the contact: " + SSTR(index) + " \n";
-
-
 
 	return 0;
 }

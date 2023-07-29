@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cctype>
-using namespace std;
+#include <cstring>
 
 //simple program that takes one string argument
 //and print it in uppercase
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	{
 		for (size_t x=0; x < strlen(argv[1]); x++)
 			putchar(toupper(argv[1][x]));
-		cout << "\n";
+		std::cout << "\n";
 	}
 	return 0;
 }
