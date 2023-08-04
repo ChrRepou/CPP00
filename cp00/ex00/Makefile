@@ -2,7 +2,7 @@ CC = g++
 
 CFLAGS  = -g -Wall -Wextra -Werror
 
-TARGET = megaphone
+TARGET = Megaphone
 
 all: $(TARGET)
 
